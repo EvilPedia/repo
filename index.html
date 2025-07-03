@@ -14,6 +14,23 @@
   <link rel="stylesheet" href="assets/css/lineicons.css">
   <link rel="stylesheet" href="assets/css/animate.css">
   <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+  @keyframes glow {
+    0% {
+      box-shadow: 0 0 2px #fff, 0 0 4px #6cf, 0 0 8px #6cf, 0 0 12px #6cf;
+    }
+    50% {
+      box-shadow: 0 0 6px #fff, 0 0 12px #6cf, 0 0 24px #6cf, 0 0 32px #6cf;
+    }
+    100% {
+      box-shadow: 0 0 2px #fff, 0 0 4px #6cf, 0 0 8px #6cf, 0 0 12px #6cf;
+    }
+  }
+  .glow-secret-btn {
+    animation: glow 1.5s infinite alternate;
+    border-width: 2px;
+  }
+  </style>
 </head>
 <body>
   <!--[if lte IE 9]>
@@ -23,7 +40,7 @@
   <!-- ========================= main start ========================= -->
   <main class="main-06">
     <!-- header start  -->
-    <div class="header header-06" style="background: #111; padding-top: 0.5rem; padding-bottom: 0.5rem; min-height: unset;">
+    <div class="header header-06" style="background: #111; padding-top: 1.2rem; padding-bottom: 1.2rem; min-height: 72px;">
       <div class="container">
         <div class="row align-items-center">
           <!-- Left: Logo Text -->
@@ -34,10 +51,7 @@
           <div class="col-md-6"></div>
           <!-- Right: Button and Icon -->
           <div class="col-md-3 d-flex justify-content-end align-items-center">
-            <button class="btn btn-outline-light mr-3" style="border-radius: 2rem; padding: 0.5rem 1.5rem; font-weight: 500;" onclick="openPasswordModal()">Secret 👀</button>
-            <button class="btn btn-dark" style="border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
-              <i class="lni lni-network" style="font-size: 1.3rem; color: #fff;"></i>
-            </button>
+            <button class="btn btn-outline-light glow-secret-btn" style="border-radius: 2rem; padding: 0.5rem 1.5rem; font-weight: 500;" onclick="openPasswordModal()">Secret 👀</button>
           </div>
         </div>
       </div>
@@ -242,4 +256,4 @@
     </div>
   </div>
 </body>
-</html>
+</html> 
