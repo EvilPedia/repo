@@ -1,10 +1,12 @@
 import fs from 'fs';
 import path from 'path';
+import jwt from 'jsonwebtoken';
 
 export default function handler(req, res) {
-  // Check for a secret token in the query string
   const { token } = req.query;
-  if (token !== process.env.SECRET_TOKEN) {
+  try {
+    jwt.verify(token, process.env.SECRET_TOKEN);
+  } catch (err) {
     return res.status(403).json({ error: 'Forbidden' });
   }
 
@@ -12,7 +14,7 @@ export default function handler(req, res) {
   try {
     const imageBuffer = fs.readFileSync(filePath);
     res.setHeader('Content-Type', 'image/jpeg');
-    res.send(imageBuffer);
+    res.status(200).send(imageBuffer);
   } catch (err) {
     res.status(404).json({ error: 'Image not found' });
   }

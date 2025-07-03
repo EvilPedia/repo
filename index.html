@@ -197,8 +197,6 @@
   <script src="assets/js/main.js"></script>
   <script src="script.js"></script>
   <script>
-  const SECRET_TOKEN = 'YOUR_TOKEN_HERE'; // Replace with your actual token
-
   function openPasswordModal() {
     document.getElementById('passwordModal').style.display = 'flex';
     document.getElementById('passwordInput').value = '';
@@ -219,7 +217,8 @@
         body: JSON.stringify({ password: userInput })
       });
       if (response.ok) {
-        document.getElementById("secret-image").innerHTML = `<img src="/api/secret-image?token=${encodeURIComponent(SECRET_TOKEN)}" class="img-fluid rounded shadow-lg" alt="Secret">`;
+        const data = await response.json();
+        document.getElementById("secret-image").innerHTML = `<img src="/api/secret-image?token=${encodeURIComponent(data.token)}" class="img-fluid rounded shadow-lg" alt="Secret">`;
         document.getElementById("secret-image").style.display = "block";
         closePasswordModal();
       } else {
