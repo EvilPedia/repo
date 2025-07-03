@@ -197,6 +197,8 @@
   <script src="assets/js/main.js"></script>
   <script src="script.js"></script>
   <script>
+  const SECRET_TOKEN = 'YOUR_TOKEN_HERE'; // Replace with your actual token
+
   function openPasswordModal() {
     document.getElementById('passwordModal').style.display = 'flex';
     document.getElementById('passwordInput').value = '';
@@ -206,10 +208,9 @@
   function closePasswordModal() {
     document.getElementById('passwordModal').style.display = 'none';
   }
-  // Replace this with your actual token value from Vercel env var
-  const SECRET_TOKEN = 'YOUR_TOKEN_HERE';
-  async function promptPassword() {
-    const userInput = prompt("Enter password:");
+
+  async function submitPassword() {
+    const userInput = document.getElementById('passwordInput').value;
     if (!userInput) return;
     try {
       const response = await fetch('/api/validate', {
@@ -220,12 +221,13 @@
       if (response.ok) {
         document.getElementById("secret-image").innerHTML = `<img src="/api/secret-image?token=${encodeURIComponent(SECRET_TOKEN)}" class="img-fluid rounded shadow-lg" alt="Secret">`;
         document.getElementById("secret-image").style.display = "block";
+        closePasswordModal();
       } else {
-        alert("Wrong password!");
+        document.getElementById('passwordError').style.display = 'block';
       }
     } catch (err) {
-      console.error('Error:', err);
-      alert('Something went wrong. Try again.');
+      document.getElementById('passwordError').textContent = 'Something went wrong. Try again.';
+      document.getElementById('passwordError').style.display = 'block';
     }
   }
   // Optional: Close modal on ESC
@@ -250,7 +252,7 @@
         </div>
         <div class="modal-footer" style="border-top: none; justify-content: flex-end;">
           <button type="button" class="btn btn-secondary" onclick="closePasswordModal()">Cancel</button>
-          <button type="button" class="btn btn-outline-light" onclick="promptPassword()">Submit</button>
+          <button type="button" class="btn btn-outline-light" onclick="submitPassword()">Submit</button>
         </div>
       </div>
     </div>
