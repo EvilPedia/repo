@@ -218,8 +218,9 @@
       });
       if (response.ok) {
         const data = await response.json();
-        console.log('Submitted:', userInput, 'Expected:', process.env.SECRET_PASSWORD);
-        document.getElementById("secret-image").innerHTML = `<img src="/api/secret-image?token=${encodeURIComponent(data.token)}" class="img-fluid rounded shadow-lg" alt="Secret">`;
+        console.log('Token received:', data.token);
+        document.getElementById("secret-image").innerHTML =
+          `<img src="/api/secret-image?token=${encodeURIComponent(data.token)}" class="img-fluid rounded shadow-lg" alt="Secret">`;
         document.getElementById("secret-image").style.display = "block";
         closePasswordModal();
       } else {
