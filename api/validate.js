@@ -15,4 +15,6 @@ export default function handler(req, res) {
   } else {
     res.status(401).json({ valid: false });
   }
+
+  console.log('Submitted:', submittedPassword, 'Expected:', correctPassword);
 }
