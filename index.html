@@ -23,17 +23,21 @@
   <!-- ========================= main start ========================= -->
   <main class="main-06">
     <!-- header start  -->
-    <div class="header header-06">
+    <div class="header header-06" style="background: #111; padding-top: 0.5rem; padding-bottom: 0.5rem; min-height: unset;">
       <div class="container">
         <div class="row align-items-center">
-          <div class="col-md-4">
-            <a href="#" class="logo"> <img src="assets/img/logo.png" alt=""></a>
+          <!-- Left: Logo Text -->
+          <div class="col-md-3 d-flex align-items-center">
+            <span style="color: #fff; font-size: 2rem; font-weight: bold; letter-spacing: 1px;">interactive.</span>
           </div>
-          <div class="col-md-8">
-            <div class="header-right text-right">
-              <a href="#">Say hello! info@yourwebsite.com</a>
-              <button class="btn btn-primary ml-3" onclick="promptPassword()">🔒 Secret</button>
-            </div>
+          <!-- Center: Navigation (removed) -->
+          <div class="col-md-6"></div>
+          <!-- Right: Button and Icon -->
+          <div class="col-md-3 d-flex justify-content-end align-items-center">
+            <button class="btn btn-outline-light mr-3" style="border-radius: 2rem; padding: 0.5rem 1.5rem; font-weight: 500;" onclick="openPasswordModal()">Secret 👀</button>
+            <button class="btn btn-dark" style="border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+              <i class="lni lni-network" style="font-size: 1.3rem; color: #fff;"></i>
+            </button>
           </div>
         </div>
       </div>
@@ -41,6 +45,7 @@
     <!-- header end  -->
 
     <!-- ========================= main-wrapper start ========================= -->
+    <!-- ... existing code ... -->
     <div class="main-wrapper demo-06">
       <!-- hero-area start  -->
       <div class="hero-area">
@@ -179,5 +184,62 @@
   <script src="assets/js/wow.min.js"></script>
   <script src="assets/js/main.js"></script>
   <script src="script.js"></script>
+  <script>
+  function openPasswordModal() {
+    document.getElementById('passwordModal').style.display = 'flex';
+    document.getElementById('passwordInput').value = '';
+    document.getElementById('passwordError').style.display = 'none';
+    setTimeout(() => document.getElementById('passwordInput').focus(), 100);
+  }
+  function closePasswordModal() {
+    document.getElementById('passwordModal').style.display = 'none';
+  }
+  async function submitPassword() {
+    const userInput = document.getElementById('passwordInput').value;
+    if (!userInput) return;
+    try {
+      const response = await fetch('/api/validate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: userInput })
+      });
+      if (response.ok) {
+        document.getElementById('secret-image').style.display = 'block';
+        closePasswordModal();
+      } else {
+        document.getElementById('passwordError').style.display = 'block';
+      }
+    } catch (err) {
+      document.getElementById('passwordError').textContent = 'Something went wrong. Try again.';
+      document.getElementById('passwordError').style.display = 'block';
+    }
+  }
+  // Optional: Close modal on ESC
+  window.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closePasswordModal();
+  });
+  </script>
+
+  <!-- Password Modal -->
+  <div id="passwordModal" class="modal" tabindex="-1" role="dialog" style="display:none; background: rgba(0,0,0,0.7); position: fixed; top:0; left:0; width:100vw; height:100vh; z-index:1050; align-items:center; justify-content:center;">
+    <div class="modal-dialog" role="document" style="max-width: 350px; margin:auto;">
+      <div class="modal-content" style="background: #181818; color: #fff; border-radius: 1rem; border: none;">
+        <div class="modal-header" style="border-bottom: none;">
+          <h5 class="modal-title" style="color: #fff;">Enter Secret Password</h5>
+          <button type="button" class="close" aria-label="Close" onclick="closePasswordModal()" style="color: #fff; background: none; border: none; font-size: 1.5rem;">
+            &times;
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="password" id="passwordInput" class="form-control" placeholder="Password" style="background: #222; color: #fff; border: 1px solid #333; border-radius: 0.5rem;" autofocus>
+          <div id="passwordError" style="color: #ff6b6b; margin-top: 0.5rem; display: none;">Wrong password!</div>
+        </div>
+        <div class="modal-footer" style="border-top: none; justify-content: flex-end;">
+          <button type="button" class="btn btn-secondary" onclick="closePasswordModal()">Cancel</button>
+          <button type="button" class="btn btn-outline-light" onclick="submitPassword()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
-</html>
+</html> 
