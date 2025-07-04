@@ -1,0 +1,2 @@
+# Block direct access to private directory
+/private/*  /api/protected-file?file=:splat  200!

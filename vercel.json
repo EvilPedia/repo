@@ -1,0 +1,19 @@
+{
+  "headers": [
+    {
+      "source": "/private/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/private/(.*)",
+      "destination": "/api/protected-file?file=$1"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+# Block direct access to private directory
+<Directory "private">
+    Order Deny,Allow
+    Deny from all
+</Directory>
+
+# Alternative rule for different Apache configurations
+RewriteEngine On
+RewriteRule ^private/ - [F,L]
+
+# Prevent directory listing
+Options -Indexes

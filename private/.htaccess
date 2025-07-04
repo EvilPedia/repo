@@ -1,0 +1,6 @@
+# Deny all direct access to files in this directory
+Order Deny,Allow
+Deny from all
+
+# Alternative for newer Apache versions
+Require all denied
