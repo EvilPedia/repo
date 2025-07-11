@@ -30,6 +30,15 @@
     animation: glow 1.5s infinite alternate;
     border-width: 2px;
   }
+  .heart-glow {
+    display: inline-block;
+    filter: drop-shadow(0 0 6px #ff69b4) drop-shadow(0 0 12px #ff69b4);
+    animation: heart-glow 1.2s infinite alternate;
+  }
+  @keyframes heart-glow {
+    0% { filter: drop-shadow(0 0 6px #ff69b4) drop-shadow(0 0 12px #ff69b4); }
+    100% { filter: drop-shadow(0 0 16px #ff69b4) drop-shadow(0 0 32px #ff69b4); }
+  }
   </style>
 </head>
 <body>
@@ -169,15 +178,10 @@
     <!-- footer start  -->
     <div class="footer">
       <div class="container">
-        <div class="row">
-          <div class="col-md-7">
-            <div class="copyright wow fadeInLeft" data-wow-delay=".2s">
-              <p>Part of <a href="https://uideck.com" rel="nofollow">UIdeck</a></p>
-            </div>
-          </div>
-          <div class="col-md-5">
-            <div class="credit wow fadeInRight" data-wow-delay=".4s">
-              <p>Designed and Developed by <a rel="nofollow" href="https://soonlaunch.com">SoonLaunch</a></p>
+        <div class="row justify-content-center">
+          <div class="col-12">
+            <div class="credit wow fadeInRight text-center w-100" data-wow-delay=".4s">
+              <p style="margin-bottom: 0;">developed with <span class="heart-glow">💗</span> by <a rel="nofollow" href="https://www.instagram.com/iswk.slander/" target="_blank">@iswk.slander</a></p>
             </div>
           </div>
         </div>
