@@ -40,6 +40,187 @@
     100% { filter: drop-shadow(0 0 16px #ff69b4) drop-shadow(0 0 32px #ff69b4); }
   }
   </style>
+  <style>
+      html {
+        scroll-behavior: smooth;
+      }
+      #floating-menu-container {
+        position: fixed;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        z-index: 2000;
+        display: flex;
+        align-items: center;
+      }
+      #floating-menu-toggle {
+        background: #ff69b4;
+        border: none;
+        width: 48px;
+        height: 48px;
+        color: #fff;
+        font-size: 2rem;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        left: 0;
+        transition: background 0.2s, border-radius 0.2s;
+      }
+      #floating-menu-toggle:focus {
+        outline: none;
+      }
+      #floating-menu-toggle-icon {
+        font-size: 2rem;
+        line-height: 1;
+        display: inline-block;
+        transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+      #floating-menu-container.collapsed #floating-menu-toggle-icon {
+        transform: rotate(180deg);
+      }
+      #floating-menu-container:not(.collapsed) #floating-menu-toggle-icon {
+        transform: rotate(0deg);
+      }
+      #floating-menu-container.collapsed #floating-menu-toggle {
+        border-radius: 50%;
+      }
+      #floating-menu-container:not(.collapsed) #floating-menu-toggle {
+        border-radius: 50%;
+      }
+      #floating-menu-box {
+        background: #181818;
+        color: #fff;
+        border-radius: 1.5rem;
+        box-shadow: 0 4px 24px rgba(255,105,180,0.15);
+        padding: 1.5rem 1.5rem 1.2rem 1.5rem;
+        min-width: 200px;
+        margin-left: 0.5rem;
+        display: block;
+        transition: opacity 0.3s, margin-left 0.2s, transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        opacity: 1;
+        transform: translateX(0);
+      }
+      #floating-menu-container.collapsed #floating-menu-box {
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(-60px);
+        transition: opacity 0.3s, margin-left 0.2s, transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+      .repo-tree {
+        font-family: 'Fira Mono', monospace;
+      }
+      .repo-root {
+        font-weight: bold;
+        color: #ff69b4;
+        margin-bottom: 1rem;
+      }
+      .repo-tree ul {
+        list-style: none;
+        padding-left: 1rem;
+        margin-bottom: 0;
+      }
+      .repo-tree ul li a {
+        color: #fff;
+        text-decoration: none;
+        display: block;
+        padding: 0.3rem 0.5rem;
+        border-radius: 0.3rem;
+        transition: background 0.2s, color 0.2s;
+      }
+      .repo-tree ul li a:hover, .repo-tree ul li a.active {
+        background: #ff69b4;
+        color: #181818;
+      }
+      @media (max-width: 767.98px) {
+        #floating-menu-container { display: none !important; }
+      }
+      #blog-content {
+        font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+        font-size: 1.15rem;
+        color: #fff;
+        background: #181818;
+        border-radius: 1.5rem;
+        padding: 2.5rem 2.5rem 2rem 2.5rem;
+        box-shadow: 0 4px 24px rgba(255,105,180,0.10);
+        line-height: 1.8;
+        max-width: 700px;
+        margin-left: 320px;
+        margin-right: auto;
+        margin-top: 2.2rem;
+      }
+      @media (max-width: 1200px) {
+        #blog-content {
+          margin-left: 240px;
+        }
+      }
+      @media (max-width: 991.98px) {
+        #blog-content {
+          margin-left: 0;
+          padding: 1.2rem 0.7rem;
+          margin-top: 1.2rem;
+        }
+      }
+      #blog-content p {
+        margin-bottom: 1.2rem;
+        color: #fff;
+        font-size: 1.15rem;
+        font-weight: 400;
+      }
+      #blog-content section {
+        margin-bottom: 3.5rem;
+        border-bottom: 1.5px solid #292929;
+        padding-bottom: 2.5rem;
+        padding-top: 1.5rem;
+        background: rgba(255,255,255,0.01);
+        border-radius: 1rem;
+      }
+      #blog-content section:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+    </style>
+    <style>
+      .footer-new {
+        width:100%;
+        background:#181818;
+        text-align:center;
+        padding:1.2rem 0 1.2rem 0;
+        margin-top:3rem;
+      }
+      .footer-new.slide-in {
+        animation: slideInUpFooter 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+      @keyframes slideInUpFooter {
+        from {
+          opacity: 0;
+          transform: translateY(60px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var footer = document.querySelector('.footer-new');
+        var animated = false;
+        function checkFooterInView() {
+          var rect = footer.getBoundingClientRect();
+          if (!animated && rect.top < window.innerHeight) {
+            footer.classList.add('slide-in');
+            animated = true;
+          }
+        }
+        window.addEventListener('scroll', checkFooterInView);
+        checkFooterInView();
+      });
+    </script>
 </head>
 <body>
   <!--[if lte IE 9]>
@@ -67,127 +248,158 @@
     </div>
     <!-- header end  -->
 
-    <!-- ========================= main-wrapper start ========================= -->
-    <!-- ... existing code ... -->
-    <div class="main-wrapper demo-06">
-      <!-- hero-area start  -->
-      <div class="hero-area">
-        <div class="container">
-          <div class="row">
-            <div class="col-xl-12">
-              <!-- heading start  -->
-              <div class="heading">
-                <h1 class="text-white wow fadeInUp" data-wow-delay=".2s">We Are <br> Coming Soon</h1>
-              </div>
-              <!-- heading end  -->
-            </div>
-            <div class="col-xl-7 col-lg-7">
-              <!-- countdown start  -->
-              <div class="wow fadeInRight" data-wow-delay=".4s" data-countdown="2021/10/01"></div>
-              <!-- countdown end  -->
-            </div>
-            <div class="col-xl-5 col-lg-5">
-              <!-- desc start  -->
-              <p class="wow fadeInLeft" data-wow-delay=".4s">
-                We're strong believers that the best solutions come from gathering new insights and pushing conventional boundaries.
-              </p>
-              <!-- desc end  -->
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- hero-area end  -->
-
-      <!-- team-area start  -->
-      <div class="team-area">
-        <div class="container">
-          <div class="row">
-            <div class="col-xl-9">
-              <!-- section-title start  -->
-              <div class="section-title">
-                <h1 class="wow fadeInUp" data-wow-delay=".2s">Our Real Hero</h1>
-                <h2 class="wow fadeInUp" data-wow-delay=".4s">
-                  Every month, amounts of Projects <br class="d-none d-lg-block"> handover by this genius team.
-                </h2>
-              </div>
-              <!-- section-title end  -->
-            </div>
-          </div>
-          <!-- team-wrapper start  -->
-          <div class="team-wrapper">
-            <!-- team-item start  -->
-            <div class="team-item wow fadeInUp" data-wow-delay=".2s">
-              <div class="team-img">
-                <img src="assets/img/img-1.jpg" alt="">
-                <ul class="social-links">
-                  <li><a href="#"><i class="lni lni-facebook-filled"></i></a></li>
-                  <li><a href="#"><i class="lni lni-twitter-filled"></i></a></li>
-                  <li><a href="#"><i class="lni lni-instagram-original"></i></a></li>
-                  <li><a href="#"><i class="lni lni-linkedin"></i></a></li>
+    <!-- Floating Side Menu -->
+    <div id="floating-menu-container">
+      <button id="floating-menu-toggle" aria-label="Toggle menu" style="background: none !important; border: none; width: auto; height: auto; color: #ff69b4 !important; font-size: 2.2rem; box-shadow: none; cursor: pointer; display: flex; align-items: center; justify-content: center; position: relative; left: 0; padding: 0;">
+        <span id="floating-menu-toggle-icon" style="color: #ff69b4 !important; font-size: 2.2rem;">⬅️</span>
+      </button>
+      <div id="floating-menu-box">
+        <div class="repo-tree">
+          <div class="repo-root">repo/</div>
+          <ul>
+            <li><a href="#about">about</a></li>
+            <li><a href="#inspo">inspo</a></li>
+            <li><a href="#blowingup">blowingup</a></li>
+            <li><a href="#threats">threats</a></li>
+            <li><a href="#blowtsup">blowtsup</a></li>
+            <li><a href="#fulltime">fulltime</a></li>
+            <li><a href="#switchingfrompoststostories">switchingfrompoststostories</a></li>
                 </ul>
-              </div>
-              <div class="team-info">
-                <h4>John Doe</h4>
-                <p>Sr. Software Engineer</p>
-              </div>
-            </div>
-            <!-- team-item end  -->
-            <div class="team-item wow fadeInUp" data-wow-delay=".4s">
-              <div class="team-img">
-                <img src="assets/img/img-2.jpg" alt="">
-                <ul class="social-links">
-                  <li><a href="#"><i class="lni lni-facebook-filled"></i></a></li>
-                  <li><a href="#"><i class="lni lni-twitter-filled"></i></a></li>
-                  <li><a href="#"><i class="lni lni-instagram-original"></i></a></li>
-                  <li><a href="#"><i class="lni lni-linkedin"></i></a></li>
-                </ul>
-              </div>
-              <div class="team-info">
-                <h4>Sarah Junyna</h4>
-                <p>Business Manager</p>
-              </div>
-            </div>
-            <!-- team-item end  -->
-            <div class="team-item wow fadeInUp" data-wow-delay=".6s">
-              <div class="team-img">
-                <img src="assets/img/img-3.jpg" alt="">
-                <ul class="social-links">
-                  <li><a href="#"><i class="lni lni-facebook-filled"></i></a></li>
-                  <li><a href="#"><i class="lni lni-twitter-filled"></i></a></li>
-                  <li><a href="#"><i class="lni lni-instagram-original"></i></a></li>
-                  <li><a href="#"><i class="lni lni-linkedin"></i></a></li>
-                </ul>
-              </div>
-              <div class="team-info">
-                <h4>Rob Hope</h4>
-                <p>UX/UI Designer</p>
-              </div>
-            </div>
-            <!-- team-item end  -->
-          </div>
-          <!-- team-wrapper end  -->
-        </div>
-      </div>
-      <!-- team-area end  -->
-
-      <div id="secret-image" class="text-center mt-5" style="display: none;"></div>
-
-    </div>
-    <!-- ========================= main-wrapper end ========================= -->
-
-    <!-- footer start  -->
-    <div class="footer">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-12">
-            <div class="credit wow fadeInRight text-center w-100" data-wow-delay=".4s">
-              <p style="margin-bottom: 0;">developed with <span class="heart-glow">💗</span> by <a rel="nofollow" href="https://www.instagram.com/iswk.slander/" target="_blank">@iswk.slander</a></p>
-            </div>
-          </div>
         </div>
       </div>
     </div>
-    <!-- footer end  -->
+    <script>
+  window.onload = function() {
+    const menuContainer = document.getElementById('floating-menu-container');
+    const toggleBtn = document.getElementById('floating-menu-toggle');
+    const toggleIcon = document.getElementById('floating-menu-toggle-icon');
+    let collapsed = false;
+    function updateMenu() {
+      if (collapsed) {
+        menuContainer.classList.add('collapsed');
+        toggleIcon.innerHTML = '➡️'; // right arrow emoji
+      } else {
+        menuContainer.classList.remove('collapsed');
+        toggleIcon.innerHTML = '⬅️'; // left arrow emoji
+      }
+    }
+    toggleBtn.addEventListener('click', function() {
+      collapsed = !collapsed;
+      updateMenu();
+    });
+    updateMenu();
+    // Custom smooth scroll for menu links with ease-in-out cubic
+    function easeInOutCubic(t) {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+    function smoothScrollTo(targetY, duration = 900) {
+      const startY = window.scrollY;
+      const diff = targetY - startY;
+      let start;
+      function step(timestamp) {
+        if (!start) start = timestamp;
+        const time = timestamp - start;
+        const percent = Math.min(time / duration, 1);
+        const eased = easeInOutCubic(percent);
+        window.scrollTo(0, startY + diff * eased);
+        if (time < duration) {
+          requestAnimationFrame(step);
+        }
+      }
+      requestAnimationFrame(step);
+    }
+    const links = document.querySelectorAll('.repo-tree ul li a');
+    links.forEach(link => {
+      link.addEventListener('click', function(e) {
+        const targetId = this.getAttribute('href').substring(1);
+        const target = document.getElementById(targetId);
+        if (target) {
+          e.preventDefault();
+          const y = target.getBoundingClientRect().top + window.pageYOffset - 20;
+          smoothScrollTo(y);
+        }
+      });
+    });
+    // Highlight active section in menu
+    const sections = Array.from(links).map(link => document.getElementById(link.getAttribute('href').substring(1)));
+    function onScroll() {
+      let scrollPos = window.scrollY || document.documentElement.scrollTop;
+      let offset = 120;
+      let activeIndex = 0;
+      for (let i = 0; i < sections.length; i++) {
+        if (sections[i].offsetTop - offset <= scrollPos) {
+          activeIndex = i;
+        }
+      }
+      links.forEach((link, i) => link.classList.toggle('active', i === activeIndex));
+    }
+    window.addEventListener('scroll', onScroll);
+    onScroll();
+  };
+  </script>
+    <!-- Blog Content -->
+    <div class="container-fluid" style="min-height: 70vh;">
+      <div class="row" style="display: flex;">
+        <div class="col-md-8 col-lg-9 py-5 mx-auto" id="blog-content">
+          <section id="about" class="mb-5">
+            <h2>about</h2>
+            <p>congrats on finding this, ive made this website as a farewell to my work done over the past 2 years. I am eternally grateful for all the followers i've received and all the support i've recieved 🤗 my dream of being a niche microcelebrity has finally been completed 👅 the following sections will answer all you need to know about myself which ive been recieving in my dms throughout the past 2 years and i hope it clears all your questions you have about me.</p>
+            <p>obviously for privacy purposes i wont be revealing too much, although i would say, 60% of the wild shit which actually happened involves too much details, which if i share with you guys will lead to my identity being compromised ☹️</p>
+          </section>
+          <section id="inspo" class="mb-5">
+            <h2>inspo</h2>
+            <p>it all started during the summer of july 2023, when I was scrolling through instagram and I found this page called @riyalnews, this was my first source of inspiration. and mind you till this point, there was no intention of covering any drama etc. 🤷‍♂️ all i wanted to was create @raptv style posts for the teachers in our school </p>
+          </section>
+          <section id="blowingup" class="mb-5">
+            <h2>blowingup</h2>
+            <p>after i was done with my first post, i spammed requests to a bunch of people and they started noticing my page and reposting the memes on the story, and I managed to reach 200 followers under a week. this was all during the summer vacation, but the real fun began once school started.</p>
+          </section>
+          <section id="threats" class="mb-5">
+            <h2>threats</h2>
+            <p>it was the first day school re-opened after summer vacation. i remember this day very clearly 😭 JP sir comes at the end of the assembly and says "one of our students has been very busy this vacation making jokes about the teachers and posting on instagram with very nice graphics" and then..</p>
+          </section>
+          <section id="blowtsup" class="mb-5">
+            <h2>blowtsup</h2>
+            <p>i wasn't ready for what i would witness once i go back home and check the followers. thanks to the shoutout by JP sir my account blew up like crazy, reaching 400+ followers in a week or so. this only motivated me to post more (atp i didnt knew it but back then, i was essentially ragebaiting the faculties 😛)</p>
+          </section>
+          <section id="fulltime" class="mb-5">
+            <h2>fulltime</h2>
+            <p>i did it all for the thrill of getting caught. and till this day i don't regret a single post on my account. this thrill lead me to pre-preparing posts several days before it was actually posted and everyday i would make it my routine to post a single post and this went around for 1.5 months</p>
+          </section>
+          <section id="switchingfrompoststostories" class="mb-5">
+            <h2>switchingfrompoststostories</h2>
+            <p>i posted both stories as well as posts, and honestly i enjoyed making the stories more cause then i actually knew who all from the school were actually viewing my stories and the likes only</p>
+          </section>
+        </div>
+      </div>
+    </div>
+    <!-- Remove old footer and spacer -->
+    <!-- New simple footer -->
+    <footer class="footer-new" style="text-align:center; padding:0.7rem 0 0.7rem 0; margin-top:0.5rem; margin-bottom:1.2rem; background:none; box-shadow:none;">
+      <span style="color:#fff; font-size:1.35rem; font-weight: 500;">developed with <span class="footer-heart-glow" style="font-size:2.1rem;">💗</span> by <a href="https://www.instagram.com/iswk.slander/" target="_blank" rel="nofollow" style="color:#7ecbff; text-decoration:none; font-family:'Fira Mono',monospace; font-size:1.25rem;">@iswk.slander</a></span>
+    </footer>
+    <style>
+      .footer-new {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        min-height: 0;
+      }
+      .footer-heart-glow {
+        display: inline-block;
+        filter: drop-shadow(0 0 6px #ff69b4) drop-shadow(0 0 12px #ff69b4);
+        animation: footer-heart-glow 1.2s infinite alternate;
+      }
+      @keyframes footer-heart-glow {
+        0% { filter: drop-shadow(0 0 6px #ff69b4) drop-shadow(0 0 12px #ff69b4); }
+        100% { filter: drop-shadow(0 0 16px #ff69b4) drop-shadow(0 0 32px #ff69b4); }
+      }
+      #blog-content section:last-child {
+        margin-bottom: 1.2rem;
+        padding-bottom: 1.2rem;
+      }
+    </style>
   </main>
   <!-- ========================= main end ========================= -->
 
